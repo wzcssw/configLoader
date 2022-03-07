@@ -1,0 +1,6 @@
+prometheus:
+  path: "/home/wangzhicheng1/prometheus"
+  reload_url: "http://10.66.3.87:9090/-/reload"
+alertmanager:
+  path: "/home/wangzhicheng1/alertmanager"
+  reload_url: "http://127.0.0.1:9090/-/reload"

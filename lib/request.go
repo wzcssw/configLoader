@@ -7,8 +7,8 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func Get(url string) error {
-	resp, err := http.Get(url)
+func Post(url string) error {
+	resp, err := http.Post(url, "application/json", nil)
 	if err != nil {
 		log.Error(err)
 		return err

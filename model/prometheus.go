@@ -8,12 +8,12 @@ import (
 )
 
 type Prometheus struct {
-	Path      string
-	ReloadURL string
+	Path      string `yaml:"path"`
+	ReloadURL string `yaml:"reload_url"`
 }
 
 func (p Prometheus) Reload() error {
-	return lib.Get(p.Path)
+	return lib.Post(p.ReloadURL)
 }
 
 func (p Prometheus) WriteConifg(fileName, content string) error {

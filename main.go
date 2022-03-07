@@ -5,21 +5,24 @@ import (
 	"configLoader/model"
 	"context"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"time"
 
 	log "github.com/sirupsen/logrus"
 	"go.etcd.io/etcd/clientv3"
+	"gopkg.in/yaml.v2"
 )
 
 var (
+	Config          = make(map[string]model.Prometheus)
 	Prefix          = "monitor"
 	ETCDAddr string = "10.69.77.193:9379" // etcd 地址
 	Region   string = "bj"                // Region etcd前缀 例北京：bj
 
 	serviceMap = map[string]model.Service{ // 可以写到配置文件中
 		"prometheus": model.Prometheus{
-			Path:      "/home/wangzhicheng1/prometheus",
+			Path:      "/Users/oushisei/Desktop/go_workspace/src/configLoader",
 			ReloadURL: "http://127.0.0.1:9090/-/reload",
 		},
 		"alertmanager": model.Prometheus{
@@ -29,7 +32,22 @@ var (
 	}
 )
 
+func LoadConfig() {
+	ymlfile, err := ioutil.ReadFile("config.yml")
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
+	err = yaml.Unmarshal(ymlfile, Config)
+	if err != nil {
+		log.Fatal(err)
+		panic(err)
+	}
+}
+
 func main() {
+	LoadConfig()
+	////
 	var jobChan = make(chan *clientv3.Event, 1024)
 
 	lib.InitETCDConn(ETCDAddr)
@@ -68,7 +86,7 @@ func DoWork(key, value string) { // key例子 /monitor/bj/prometheus/prometheus.
 
 	serviceName := strs[2]
 
-	service, exist := serviceMap[serviceName]
+	service, exist := Config[serviceName]
 	if !exist {
 		log.Errorf("服务(%s)不存在", serviceName)
 	}
