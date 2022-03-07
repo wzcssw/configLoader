@@ -19,17 +19,6 @@ var (
 	Prefix          = "monitor"
 	ETCDAddr string = "10.69.77.193:9379" // etcd 地址
 	Region   string = "bj"                // Region etcd前缀 例北京：bj
-
-	serviceMap = map[string]model.Service{ // 可以写到配置文件中
-		"prometheus": model.Prometheus{
-			Path:      "/Users/oushisei/Desktop/go_workspace/src/configLoader",
-			ReloadURL: "http://127.0.0.1:9090/-/reload",
-		},
-		"alertmanager": model.Prometheus{
-			Path:      "/home/wangzhicheng1/alertmanager",
-			ReloadURL: "http://127.0.0.1:9093/-/reload",
-		},
-	}
 )
 
 func LoadConfig() {
@@ -71,6 +60,7 @@ func main() {
 				log.Info("key:", string(event.Kv.Key), "更新", string(event.Kv.Value))
 				jobChan <- event
 			case 1:
+				// TODO 完善删除操作
 				log.Info("key:", string(event.Kv.Key), "删除", "Revision:", event.Kv.ModRevision)
 			}
 		}
