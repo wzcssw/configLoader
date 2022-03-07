@@ -21,6 +21,6 @@ func Post(url string) error {
 		return err
 	}
 
-	log.Info("调用reload接口", string(body))
+	log.Info("调用reload接口", url, string(body))
 	return nil
 }

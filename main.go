@@ -68,7 +68,7 @@ func main() {
 		for _, event := range watchResp.Events {
 			switch event.Type {
 			case 0:
-				log.Info("key:", string(event.Kv.Key), "修改为:", string(event.Kv.Value))
+				log.Info("key:", string(event.Kv.Key), "更新", string(event.Kv.Value))
 				jobChan <- event
 			case 1:
 				log.Info("key:", string(event.Kv.Key), "删除", "Revision:", event.Kv.ModRevision)
