@@ -71,7 +71,8 @@ func main() {
 func DoWork(key, value string) { // key例子 /monitor/bj/prometheus/prometheus.yml
 	strs := strings.Split(strings.TrimPrefix(key, "/"), "/")
 	if len(strs) < 4 {
-		log.Error("无效的key", key)
+		log.Error("无效的key: ", key)
+		return
 	}
 
 	serviceName := strs[2]
